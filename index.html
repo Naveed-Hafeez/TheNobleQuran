@@ -126,15 +126,16 @@ button {
 .pdf-container {
   width: 100%;
   height: 80vh;
+  overflow-y: scroll;
   border-radius: 10px;
-  overflow: auto;
   border: 1px solid #ccc;
+  padding: 10px;
 }
 
 canvas {
   width: 100% !important;
   display: block;
-  margin: 10px auto;
+  margin: 10px 0;
 }
 
 footer {
@@ -142,14 +143,6 @@ footer {
   padding: 1rem;
   font-size: 0.9rem;
   opacity: 0.7;
-}
-
-@media (max-width: 900px) {
-  .pdf-container { height: 70vh; }
-}
-
-@media (max-width: 600px) {
-  .pdf-container { height: 60vh; }
 }
 </style>
 </head>
@@ -175,9 +168,8 @@ footer {
 
 <div class="card">
   <h2>Read The Quran 📖</h2>
-  <p>Scroll and read directly in your browser.</p>
+  <p>Scroll down to read the full Quran in your browser.</p>
 
-  <!-- PDF.js Viewer -->
   <div class="pdf-container" id="pdf-container"></div>
 </div>
 
@@ -250,8 +242,8 @@ function renderPayPal() {
 
 renderPayPal();
 
-/* PDF.js Rendering */
-const url = 'https://naveed-hafeez.github.io/TheNobleQuran/TheNobleQuran.pdf';
+/* PDF.js rendering all pages scrollable */
+const url = 'TheNobleQuran.pdf'; // Make sure PDF is in the same folder as index.html
 const container = document.getElementById('pdf-container');
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.111/pdf.worker.min.js';
