@@ -148,7 +148,7 @@ footer {
   <h1>The Noble Quran</h1>
   <p>Arabic & English Quran Reader</p>
   <p class="author">By Naveed Hafeez</p>
-  <button class="toggle" onclick="toggleDarkMode()">🌙</button>
+  <button class="toggle" aria-label="Toggle dark mode" onclick="toggleDarkMode()">🌙</button>
 </header>
 
 <main>
@@ -172,10 +172,10 @@ footer {
   <p>Select or enter a Sadaqah amount</p>
 
   <div class="donation-options">
-    <button onclick="setPresetAmount(2)">£2</button>
-    <button onclick="setPresetAmount(5)" class="active">£5</button>
-    <button onclick="setPresetAmount(10)">£10</button>
-    <button onclick="setPresetAmount(20)">£20</button>
+    <button onclick="setPresetAmount(2, this)">£2</button>
+    <button onclick="setPresetAmount(5, this)" class="active">£5</button>
+    <button onclick="setPresetAmount(10, this)">£10</button>
+    <button onclick="setPresetAmount(20, this)">£20</button>
   </div>
 
   <div class="custom-amount">
@@ -192,34 +192,35 @@ footer {
 </footer>
 
 <script>
+/* Dark Mode */
 function toggleDarkMode() {
   document.body.classList.toggle('dark');
   localStorage.setItem('darkMode', document.body.classList.contains('dark'));
 }
-
 if (localStorage.getItem('darkMode') === 'true') {
   document.body.classList.add('dark');
 }
 
+/* Donation logic */
 let donationAmount = '5.00';
 
-function setPresetAmount(amount) {
+function setPresetAmount(amount, el) {
   donationAmount = amount.toFixed(2);
   document.querySelectorAll('.donation-options button')
     .forEach(btn => btn.classList.remove('active'));
-  event.target.classList.add('active');
+  el.classList.add('active');
   renderPayPal();
 }
 
 function setCustomAmount(value) {
-  if (value && value > 0) {
-    donationAmount = parseFloat(value).toFixed(2);
-    document.querySelectorAll('.donation-options button')
-      .forEach(btn => btn.classList.remove('active'));
-    renderPayPal();
-  }
+  if (!value || value <= 0) return;
+  donationAmount = parseFloat(value).toFixed(2);
+  document.querySelectorAll('.donation-options button')
+    .forEach(btn => btn.classList.remove('active'));
+  renderPayPal();
 }
 
+/* PayPal rendering */
 function renderPayPal() {
   document.getElementById('paypal-button-container').innerHTML = '';
   paypal.Buttons({
