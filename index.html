@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Noble Quran - Reader</title>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green: #0F3D2E;
+      --gold: #C9A24D;
+      --bg: #F7F7F2;
+      --text: #1E1E1E;
+      --card: #ffffff;
+      --secondary: #555;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+    }
+
+    header {
+      background: var(--green);
+      color: white;
+      padding: 2rem;
+      text-align: center;
+      border-bottom: 3px solid var(--gold);
+    }
+
+    header h1 {
+      font-weight: 700;
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    header p {
+      font-size: 1rem;
+      opacity: 0.9;
+      margin: 2px 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 2rem;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 14px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+    }
+
+    .grid {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+
+    .action {
+      text-align: center;
+      padding: 2rem 2rem;
+      font-weight: 600;
+      border: 1px solid #ddd;
+      border-radius: 14px;
+      cursor: pointer;
+      background: white;
+      transition: all 0.2s;
+      font-size: 1.2rem;
+    }
+
+    .action:hover {
+      border-color: var(--gold);
+      background: #fdfaf5;
+      transform: translateY(-3px);
+    }
+
+    .ayah-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 0.5rem;
+      color: var(--green);
+    }
+
+    .ayah-ar {
+      font-family: 'Amiri', serif;
+      font-size: 2rem;
+      text-align: center;
+      line-height: 3rem;
+      margin-bottom: 0.7rem;
+    }
+
+    .ayah-en {
+      text-align: center;
+      color: var(--secondary);
+      font-size: 1.1rem;
+      line-height: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    nav {
+      display: none;
+    }
+
+    /* Fullscreen PDF Overlay */
+    #pdfOverlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: white;
+      z-index: 9999;
+    }
+
+    #pdfOverlay iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    #pdfOverlayHeader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 50px;
+      background: var(--green);
+      color: white;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 0 1rem;
+      z-index: 10000;
+    }
+
+    #pdfOverlayHeader button {
+      background: white;
+      color: var(--green);
+      border: none;
+      border-radius: 6px;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      font-weight: 600;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>The Noble Quran</h1>
+    <p> Quran Reader</p>
+    <p style="font-size:0.95rem; opacity:0.8;"> by Naveed Hafeez </p>
+  </header>
+
+  <div class="container">
+
+    <!-- PDF Button -->
+    <div class="grid">
+      <div class="action" onclick="showPDF()">📖 Arabic - English Quran (PDF)</div>
+    </div>
+
+    <!-- Surah Al-Fatiha -->
+    <div class="card">
+      <div class="ayah-title">Al-Fatiha — The Opening</div>
+
+      <div class="ayah-ar">
+        بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ<br>
+        الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ<br>
+        الرَّحْمَٰنِ الرَّحِيمِ<br>
+        مَالِكِ يَوْمِ الدِّينِ<br>
+        إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ<br>
+        اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ<br>
+        صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ
+      </div>
+
+      <div class="ayah-en">
+        In the name of Allah, the Most Gracious, the Most Merciful.<br>
+        All praise is due to Allah, Lord of the worlds.<br>
+        The Most Gracious, the Most Merciful.<br>
+        Master of the Day of Judgment.<br>
+        You alone we worship, and You alone we ask for help.<br>
+        Guide us to the straight path,<br>
+        The path of those upon whom You have bestowed favor, not of those who have evoked Your anger, nor of those who go astray.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Fullscreen PDF Overlay -->
+  <div id="pdfOverlay">
+    <div id="pdfOverlayHeader">
+      <button onclick="closePDF()">Close</button>
+    </div>
+    <iframe id="pdfFrame" src="TheNobleQuran.pdf"></iframe>
+  </div>
+
+  <script>
+    function showPDF() {
+      document.getElementById('pdfOverlay').style.display = 'block';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closePDF() {
+      document.getElementById('pdfOverlay').style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+  </script>
+
+</body>
+
+</html>
