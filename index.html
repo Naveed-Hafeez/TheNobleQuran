@@ -1,230 +1,240 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Noble Quran - Reader</title>
-  <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --green: #0F3D2E;
-      --gold: #C9A24D;
-      --bg: #F7F7F2;
-      --text: #1E1E1E;
-      --card: #ffffff;
-      --secondary: #555;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Noble Quran</title>
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      margin: 0;
-    }
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Amiri&family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
-    header {
-      background: var(--green);
-      color: white;
-      padding: 2rem;
-      text-align: center;
-      border-bottom: 3px solid var(--gold);
-    }
+<!-- PayPal SDK -->
+<script src="https://www.paypal.com/sdk/js?client-id=AWcp0r8LzG6bD2i4gXQQdysFU9H34dCc5awmEptv868tjOq80PVqPiefFtISQ0Yac79W9mvow1nV3mPw&currency=GBP"></script>
 
-    header h1 {
-      font-weight: 700;
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
-    }
+<style>
+:root {
+  --bg: #f6f6f6;
+  --card: #ffffff;
+  --text: #222;
+  --accent: #0b3d2e;
+}
 
-    header p {
-      font-size: 1rem;
-      opacity: 0.9;
-      margin: 2px 0;
-    }
+body.dark {
+  --bg: #121212;
+  --card: #1e1e1e;
+  --text: #eaeaea;
+  --accent: #4fd1a5;
+}
 
-    .container {
-      max-width: 1200px;
-      margin: auto;
-      padding: 2rem;
-    }
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  transition: background 0.3s, color 0.3s;
+}
 
-    .card {
-      background: var(--card);
-      border-radius: 14px;
-      padding: 1.5rem;
-      margin-bottom: 1.5rem;
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
-      transition: transform 0.2s;
-    }
+header {
+  background: var(--accent);
+  color: white;
+  padding: 1.2rem 1rem 1.5rem;
+  text-align: center;
+  position: relative;
+}
 
-    .card:hover {
-      transform: translateY(-3px);
-    }
+header p {
+  margin: 0.3rem 0;
+}
 
-    .grid {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 2rem;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
+header .author {
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
 
-    .action {
-      text-align: center;
-      padding: 1rem 1.5rem;
-      font-weight: 600;
-      border: 1px solid #ddd;
-      border-radius: 14px;
-      cursor: pointer;
-      background: white;
-      transition: all 0.2s;
-      font-size: 1.1rem;
-    }
+main {
+  max-width: 900px;
+  margin: auto;
+  padding: 1rem;
+}
 
-    .action:hover {
-      border-color: var(--gold);
-      background: #fdfaf5;
-      transform: translateY(-3px);
-    }
+.card {
+  background: var(--card);
+  padding: 1.5rem;
+  border-radius: 14px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
 
-    .ayah-title {
-      font-family: 'Inter', sans-serif;
-      font-size: 1.4rem;
-      font-weight: 600;
-      text-align: center;
-      margin-bottom: 0.5rem;
-      color: var(--green);
-    }
+.arabic {
+  font-family: 'Amiri', serif;
+  font-size: 1.6rem;
+  direction: rtl;
+  text-align: right;
+  margin-top: 1rem;
+}
 
-    .ayah-ar {
-      font-family: 'Amiri', serif;
-      font-size: 2rem;
-      text-align: center;
-      line-height: 3rem;
-      margin-bottom: 0.7rem;
-    }
+button {
+  padding: 0.7rem 1rem;
+  border: none;
+  border-radius: 8px;
+  background: var(--accent);
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+}
 
-    .ayah-en {
-      text-align: center;
-      color: var(--secondary);
-      font-size: 1.1rem;
-      line-height: 1.8rem;
-      margin-bottom: 1rem;
-    }
+.toggle {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
 
-    nav {
-      display: none;
-    }
+.donation-options {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
 
-    /* Fullscreen PDF Overlay */
-    #pdfOverlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: white;
-      z-index: 9999;
-    }
+.donation-options button {
+  background: #ddd;
+  color: #000;
+}
 
-    #pdfOverlay iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
+.donation-options button.active {
+  background: var(--accent);
+  color: white;
+}
 
-    #pdfOverlayHeader {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 50px;
-      background: var(--green);
-      color: white;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      padding: 0 1rem;
-      z-index: 10000;
-    }
+.custom-amount {
+  margin-bottom: 1rem;
+}
 
-    #pdfOverlayHeader button {
-      background: white;
-      color: var(--green);
-      border: none;
-      border-radius: 6px;
-      padding: 0.5rem 1rem;
-      cursor: pointer;
-      font-weight: 600;
-    }
-  </style>
+.custom-amount input {
+  padding: 0.6rem;
+  width: 120px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  text-align: center;
+}
+
+iframe {
+  width: 100%;
+  height: 600px;
+  border: none;
+  border-radius: 10px;
+}
+
+footer {
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+@media (max-width: 600px) {
+  iframe {
+    height: 400px;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <header>
-    <h1>The Noble Quran</h1>
-    <p>Quran Reader</p>
-    <p style="font-size:0.95rem; opacity:0.8;">by Naveed Hafeez</p>
-  </header>
+<header>
+  <h1>The Noble Quran</h1>
+  <p>Arabic & English Quran Reader</p>
+  <p class="author">By Naveed Hafeez</p>
+  <button class="toggle" onclick="toggleDarkMode()">🌙</button>
+</header>
 
-  <div class="container">
+<main>
 
-    <!-- PDF Button -->
-    <div class="grid">
-      <div class="action" onclick="showPDF()">📖 Arabic - English Quran (PDF)</div>
-    </div>
+<div class="card">
+  <h2>Surah Al-Fātiḥah</h2>
+  <p>In the name of Allah, the Most Gracious, the Most Merciful.</p>
+  <div class="arabic">
+    بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+  </div>
+</div>
 
-    <!-- Surah Al-Fatiha -->
-    <div class="card">
-      <div class="ayah-title">Al-Fatiha — The Opening</div>
+<div class="card">
+  <h2>Read The Quran 📖</h2>
+  <p>Scroll and read directly in your browser.</p>
+  <iframe src="quran.pdf"></iframe>
+</div>
 
-      <div class="ayah-ar">
-        بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ<br>
-        الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ<br>
-        الرَّحْمَٰنِ الرَّحِيمِ<br>
-        مَالِكِ يَوْمِ الدِّينِ<br>
-        إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ<br>
-        اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ<br>
-        صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ
-      </div>
+<div class="card" style="text-align:center">
+  <h2>Support This Project ❤️</h2>
+  <p>Select or enter a Sadaqah amount</p>
 
-      <div class="ayah-en">
-        In the name of Allah, the Most Gracious, the Most Merciful.<br>
-        All praise is due to Allah, Lord of the worlds.<br>
-        The Most Gracious, the Most Merciful.<br>
-        Master of the Day of Judgment.<br>
-        You alone we worship, and You alone we ask for help.<br>
-        Guide us to the straight path,<br>
-        The path of those upon whom You have bestowed favor, not of those who have evoked Your anger, nor of those who go astray.
-      </div>
-    </div>
-
+  <div class="donation-options">
+    <button onclick="setPresetAmount(2)">£2</button>
+    <button onclick="setPresetAmount(5)" class="active">£5</button>
+    <button onclick="setPresetAmount(10)">£10</button>
+    <button onclick="setPresetAmount(20)">£20</button>
   </div>
 
-  <!-- Fullscreen PDF Overlay -->
-  <div id="pdfOverlay">
-    <div id="pdfOverlayHeader">
-      <button onclick="closePDF()">Close</button>
-    </div>
-    <iframe id="pdfFrame" src="TheNobleQuran.pdf"></iframe>
+  <div class="custom-amount">
+    £ <input type="number" min="1" step="0.01" placeholder="Custom" oninput="setCustomAmount(this.value)">
   </div>
 
-  <script>
-    // PDF Overlay
-    function showPDF() {
-      document.getElementById('pdfOverlay').style.display = 'block';
-      document.body.style.overflow = 'hidden';
-    }
+  <div id="paypal-button-container"></div>
+</div>
 
-    function closePDF() {
-      document.getElementById('pdfOverlay').style.display = 'none';
-      document.body.style.overflow = 'auto';
-    }
-  </script>
+</main>
+
+<footer>
+  © 2026 The Noble Quran — No Ads • Open Source
+</footer>
+
+<script>
+function toggleDarkMode() {
+  document.body.classList.toggle('dark');
+  localStorage.setItem('darkMode', document.body.classList.contains('dark'));
+}
+
+if (localStorage.getItem('darkMode') === 'true') {
+  document.body.classList.add('dark');
+}
+
+let donationAmount = '5.00';
+
+function setPresetAmount(amount) {
+  donationAmount = amount.toFixed(2);
+  document.querySelectorAll('.donation-options button')
+    .forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+  renderPayPal();
+}
+
+function setCustomAmount(value) {
+  if (value && value > 0) {
+    donationAmount = parseFloat(value).toFixed(2);
+    document.querySelectorAll('.donation-options button')
+      .forEach(btn => btn.classList.remove('active'));
+    renderPayPal();
+  }
+}
+
+function renderPayPal() {
+  document.getElementById('paypal-button-container').innerHTML = '';
+  paypal.Buttons({
+    style: { layout: 'vertical', label: 'donate' },
+    createOrder: (data, actions) => actions.order.create({
+      purchase_units: [{ amount: { value: donationAmount } }]
+    }),
+    onApprove: (data, actions) => actions.order.capture().then(details => {
+      alert(`Thank you ${details.payer.name.given_name}. May Allah reward you ❤️`);
+    })
+  }).render('#paypal-button-container');
+}
+
+renderPayPal();
+</script>
 
 </body>
-
 </html>
